@@ -13,7 +13,7 @@ public class ModelABCTest {
 
     //doAccessControl is empty is we're just doing a general test case
     @Test
-    void doAccessControlTestCase() {
+    public void doAccessControlTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         try {
             ex.doAccessControl();
@@ -23,7 +23,7 @@ public class ModelABCTest {
     }
 
     @Test
-    void doPrintPositiveTestCase() {
+    public void doPrintPositiveTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         ex.setLoggedin(true);
         try {
@@ -34,7 +34,7 @@ public class ModelABCTest {
     }
 
     @Test
-    void doPrintNegativeTestCase() {
+    public void doPrintNegativeTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         try {
             ex.doPrint();
@@ -46,7 +46,7 @@ public class ModelABCTest {
 
     //doAuthentication method checks the login authentication in ModelABC with relevant +ve and +ve test cases
     @Test
-    void doAuthenticationPositiveTestCase() {
+    public void doAuthenticationPositiveTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         EncryptedString pwd = new EncryptedString("password");
         SecurityContext ctx = new SecurityContext();
@@ -59,7 +59,7 @@ public class ModelABCTest {
     }
 
     @Test
-    void doAuthenticationNegativeTestCase() {
+    public void doAuthenticationNegativeTestCase() {
     PrintJobExecutor ex = new PrintJobExecutor();
     EncryptedString pwd = new EncryptedString("incorrect pwd");
     SecurityContext ctx = new SecurityContext();
@@ -73,7 +73,7 @@ public class ModelABCTest {
 
 
     @Test
-    void doErrorHandlingTestCase() {
+    public void doErrorHandlingTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         Exception e = new Exception("Test message exception call");
         try {

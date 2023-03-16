@@ -9,7 +9,9 @@ public class PrintJobExecutor extends edu.umb.cs680.hw05.PrintingFramework.Print
         //empty
     }
 
-    protected void doPrint() {}
+    protected void doPrint() {
+        System.out.println("printing job in progress");
+    }
 
     protected void doAuthentication(EncryptedString pwd, SecurityContext ctx) throws Exception {
         //empty

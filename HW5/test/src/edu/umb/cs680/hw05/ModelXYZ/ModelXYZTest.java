@@ -11,7 +11,7 @@ public class ModelXYZTest {
 
     //doAccessControl is empty for both models
     @Test
-    void doAccessControlTestCase() {
+    public void doAccessControlTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         try {
             ex.doAccessControl();
@@ -21,7 +21,7 @@ public class ModelXYZTest {
     }
     
     @Test
-    void doPrintTestCase() {
+    public void doPrintTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         try {
             ex.doPrint();
@@ -32,7 +32,7 @@ public class ModelXYZTest {
 
     //doAuthentication process is skipped in the ModelXYZ
     @Test
-    void doAuthenticationTestCase() {
+    public void doAuthenticationTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         EncryptedString pwd = new EncryptedString("password123");
         SecurityContext ctx = new SecurityContext();
@@ -44,7 +44,7 @@ public class ModelXYZTest {
     }
 
     @Test
-    void doErrorHandlingTestCase() {
+    public void doErrorHandlingTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
         Exception exc = new Exception("Testing exception message");
         try {
