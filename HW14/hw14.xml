@@ -1,10 +1,10 @@
 <!--  To run this build script, type: 
 
-      ant -f hw12.xml
+      ant -f hw14.xml
 
       on a shell. 
 -->
-<project name="FSElement-junit5-ivy" basedir="."  default="clean" xmlns:ivy="antlib:org.apache.ivy.ant">
+<project name="FSElementLE-junit5-ivy" basedir="."  default="clean" xmlns:ivy="antlib:org.apache.ivy.ant">
 	<property name="src" location="src" />
 	<property name="bin" location="bin" />
 	<property name="test.src" location="test/src" />
@@ -33,12 +33,12 @@
 	<target name="compile" depends="resolve">
 		<javac srcdir="${src}" destdir="${bin}" includeAntRuntime="no">
 			<classpath refid="classpath"/>
-			<include name="edu/umb/cs680/hw12/fs/*.java"/>
+			<include name="edu/umb/cs680/hw14/fs/*.java"/>
 			<!-- include name="edu/umb/cs680/distance.java"/-->
 		</javac>
 		<javac srcdir="${test.src}" destdir="${test.bin}" includeAntRuntime="no"> 
 			<classpath refid="classpath"/>
-			<include name="edu/umb/cs680/hw12/*.java"/>
+			<include name="edu/umb/cs680/hw14/*.java"/>
 			<!-- include name="edu/umb/cs680/distance.java"/-->
 		</javac>
 	</target>
@@ -54,7 +54,7 @@
 			<classpath refid="classpath" />
 			<testclasses outputdir="test">
 				<fileset dir="${test.bin}">
-					<include name="edu/umb/cs680/hw12/*Test.class"/>
+					<include name="edu/umb/cs680/hw14/*Test.class"/>
 				</fileset>
 				<listener type="legacy-plain" sendSysOut="true"/>
 				<!--listener type="legacy-brief" sendSysOut="true"/-->
@@ -63,15 +63,15 @@
 	</target>
 	
 	<target name="run" depends="test">
-		<java classname="edu.umb.cs680.hw12.fs.Directory"
+		<java classname="edu.umb.cs680.hw14.fs.Directory"
 				classpathref="classpath"  
 				fork="true"/>
 	</target>
 	
 	<target name="clean" depends="run">
 		<delete includeemptydirs="true">
-			<fileset dir="${bin}/edu/umb/cs680/hw12" includes="**/*"/>
-			<fileset dir="${test.bin}/edu/umb/cs680/hw12" includes="**/*"/>
+			<fileset dir="${bin}/edu/umb/cs680/hw14" includes="**/*"/>
+			<fileset dir="${test.bin}/edu/umb/cs680/hw14" includes="**/*"/>
 		</delete>
 	</target>
 	
