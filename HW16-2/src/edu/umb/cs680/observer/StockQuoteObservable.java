@@ -15,13 +15,21 @@ public class StockQuoteObservable extends Observable<StockEvent>{
     public static void main(String args[]) {
         
         StockQuoteObservable stockQuoteObservable = new StockQuoteObservable();
-        LineChartObserver lineChartObserver = new LineChartObserver();
-        TableObserver tableObserver = new TableObserver();
-        ThreeDOObserver threeDoObserver = new ThreeDOObserver();
+        Observer<StockEvent> lineChart = (sender, event) -> {
+            System.out.println("Line Chart Observer, Ticker:" + event.getTicker() + "Quote :" + event.getQoute());
+        };
 
-        stockQuoteObservable.addObserver(lineChartObserver);
-        stockQuoteObservable.addObserver(tableObserver);
-        stockQuoteObservable.addObserver(threeDoObserver);
+        Observer<StockEvent> table = (sender, event) -> {
+            System.out.println("Line Chart Observer, Ticker:" + event.getTicker() + "Quote :" + event.getQoute());
+        };
+
+        Observer<StockEvent> threeDO = (sender, event) -> {
+            System.out.println("Line Chart Observer, Ticker :" + event.getTicker() + ", Quote :" + event.getQoute());
+        };
+        stockQuoteObservable.addObserver(lineChart);
+        stockQuoteObservable.addObserver(table);
+        stockQuoteObservable.addObserver(threeDO);
+
 
         for (int i = 0; i < 10; i++) {
             String t = "test";
