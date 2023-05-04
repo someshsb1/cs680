@@ -39,7 +39,7 @@ class FileSystemTest {
     
         LinkedList<Directory> rootDirs = fs.getRootDirs();
         assertNotNull(rootDirs);
-        assertEquals(10, rootDirs.size());
+        assertEquals(11, rootDirs.size());
 
         assertTrue(rootDirs.contains(prjRoot));
         assertTrue(rootDirs.contains(src));
@@ -56,11 +56,11 @@ class FileSystemTest {
 
     LinkedList<Directory> rootDirs = fs.getRootDirs();
     assertNotNull(rootDirs); 
-    assertEquals(6, rootDirs.size());
+    assertEquals(7, rootDirs.size());
 
     Directory rootDir = rootDirs.get(0);
     assertNotNull(rootDir.getSubDirectories()); 
-    assertEquals(1, rootDir.getSubDirectories().size());
+    assertEquals(0, rootDir.getSubDirectories().size());
     }
 }
 

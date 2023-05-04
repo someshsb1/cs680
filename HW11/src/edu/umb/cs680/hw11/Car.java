@@ -9,7 +9,7 @@ public class Car {
     private String make, model;
     private int mileage, year;
     private float price;
-    private int dominationCounts;
+    private int dominationCounts = 0;
     
     public Car(String make, String model, int mileage, int year, float price) {
         this.make = make;
@@ -45,8 +45,10 @@ public class Car {
             if (car == this) {
                 continue;
             }
-            if ((car.getPrice() < this.getPrice() && car.getMileage() < this.getMileage()) || (car.getPrice() < this.getPrice() && car.getYear() > this.getYear())) {
-                this.dominationCounts++;
+            if ((car.getPrice() >= this.getPrice() && car.getMileage() <= this.getMileage() && car.getYear() <= this.getYear())) {
+                if ((car.getPrice() > this.getPrice() || car.getYear() < this.getYear() || car.getMileage() < this.getMileage())) {
+                    this.dominationCounts++;
+                }
             }
         }
     }
@@ -97,7 +99,7 @@ public class Car {
 
         usedCars.add(new Car("Toyota", "RAV4",30000, 2018,23000f));
         usedCars.add(new Car("BMW", "E6",20000, 2021,40000f));
-        usedCars.add(new Car("Mustang", "Cobra",15000, 2016,20000f));
+        usedCars.add(new Car("Mustang", "Cobra",100000, 2016,20000f));
         usedCars.add(new Car("Wagon", "HatchBack",36000, 2022,10000f));
 
         //set domination counts for all cars by calling setDominationCount() on the cars,

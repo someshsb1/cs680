@@ -15,6 +15,7 @@ public class DirectoryTest {
     Directory src = new Directory(prjRoot, "src", 0, ldt);
     Directory lib = new Directory(prjRoot, "lib", 0, ldt);
     Directory test = new Directory(prjRoot, "test", 0, ldt);
+    Directory src1 = new Directory(test, "src", 0, ldt);
     File a = new File(src, "a", 0, ldt);
     File b = new File(src, "b", 0, ldt);
     File c = new File(lib, "c", 0, ldt);
@@ -66,6 +67,17 @@ public class DirectoryTest {
         prjRoot.appendChild(test);
         Directory actual = new Directory(fs.getRootDirs().get(0), "test", 0, ldt);
         String[] expected = { "prjRoot", "test", "0", ldt.toString() };
+        assertArrayEquals(expected, dirToStringArray(actual));
+    }
+
+    @Test
+    public void verifyDirectoryEqualitySrcUnderTest() {
+        FileSystem fs = FileSystem.getFileSystem();
+        fs.appendRootDir(prjRoot);
+        prjRoot.appendChild(test);
+        test.appendChild(src);
+        Directory actual = new Directory(fs.getRootDirs().get(0), "src", 0, ldt);
+        String[] expected = { "prjRoot", "src", "0", ldt.toString() };
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 

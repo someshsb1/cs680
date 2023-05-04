@@ -43,8 +43,10 @@ public class Car {
             if (car == this) {
                 continue;
             }
-            if ((car.getPrice() < this.getPrice() && car.getMileage() < this.getMileage()) || (car.getPrice() < this.getPrice() && car.getYear() > this.getYear())) {
-                this.dominationCounts++;
+            if ((car.getPrice() >= this.getPrice() && car.getMileage() <= this.getMileage() && car.getYear() <= this.getYear())) {
+                if ((car.getPrice() > this.getPrice() || car.getYear() < this.getYear() || car.getMileage() < this.getMileage())) {
+                    this.dominationCounts++;
+                }
             }
         }
     }

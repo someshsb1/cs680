@@ -17,22 +17,6 @@ public class Link extends FSElement {
         return true;
     }
 
-    public String getName() {
-        return this.name;
-    }
-
-    public int getSize() {
-        return this.size;
-    }
-
-    public Directory getParent() {
-        return this.parent;
-    }
-
-    public LocalDateTime getCreationTime() {
-        return this.creationTime;
-    }
-
     public boolean isDirectory() {
         return false;
     }

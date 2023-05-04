@@ -32,10 +32,10 @@ public class ParetoComparatorTest {
     public void assertParetoComparatorCar() {
     
         Collections.sort(cars, new ParetoComparator());
-        assertEquals(2, cars.get(0).getDominationCount());
-        assertEquals(2, cars.get(1).getDominationCount());
-        assertEquals(1, cars.get(2).getDominationCount());
-        assertEquals(0, cars.get(3).getDominationCount());
+        assertEquals(0, cars.get(0).getDominationCount());
+        assertEquals(0, cars.get(1).getDominationCount());
+        assertEquals(0, cars.get(2).getDominationCount());
+        assertEquals(3, cars.get(3).getDominationCount());
     }
 
     @Test
@@ -43,9 +43,9 @@ public class ParetoComparatorTest {
         
         Collections.sort(cars, new ParetoComparator().reversed());
         assertEquals(0, cars.get(3).getDominationCount());
-        assertEquals(1, cars.get(2).getDominationCount());
-        assertEquals(2, cars.get(1).getDominationCount());
-        assertEquals(2, cars.get(0).getDominationCount());
+        assertEquals(0, cars.get(2).getDominationCount());
+        assertEquals(0, cars.get(1).getDominationCount());
+        assertEquals(3, cars.get(0).getDominationCount());
     }
 
     @Test
@@ -60,10 +60,10 @@ public class ParetoComparatorTest {
             car1.setDominationCount(cars);
         }
         Collections.sort(cars, new ParetoComparator());
-        assertEquals(1, cars.get(0).getDominationCount());
-        assertEquals(1, cars.get(1).getDominationCount());
-        assertEquals(0, cars.get(2).getDominationCount());
-        assertEquals(0, cars.get(3).getDominationCount());
+        assertEquals(0, cars.get(0).getDominationCount());
+        assertEquals(0, cars.get(1).getDominationCount());
+        assertEquals(1, cars.get(2).getDominationCount());
+        assertEquals(3, cars.get(3).getDominationCount());
     }
 
     @Test
@@ -80,8 +80,8 @@ public class ParetoComparatorTest {
         Collections.sort(cars, new ParetoComparator());
         assertEquals(0, cars.get(0).getDominationCount());
         assertEquals(0, cars.get(1).getDominationCount());
-        assertEquals(0, cars.get(2).getDominationCount());
-        assertEquals(0, cars.get(3).getDominationCount());
+        assertEquals(1, cars.get(2).getDominationCount());
+        assertEquals(2, cars.get(3).getDominationCount());
     }
 
     @Test
@@ -96,9 +96,9 @@ public class ParetoComparatorTest {
             car1.setDominationCount(cars);
         }
         Collections.sort(cars, new ParetoComparator());
-        assertEquals(2, cars.get(0).getDominationCount());
-        assertEquals(3, cars.get(1).getDominationCount());
-        assertEquals(0, cars.get(2).getDominationCount());
-        assertEquals(0, cars.get(3).getDominationCount());
+        assertEquals(0, cars.get(0).getDominationCount());
+        assertEquals(1, cars.get(1).getDominationCount());
+        assertEquals(2, cars.get(2).getDominationCount());
+        assertEquals(2, cars.get(3).getDominationCount());
     }
 }
