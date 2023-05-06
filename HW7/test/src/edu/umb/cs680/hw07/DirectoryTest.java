@@ -5,21 +5,21 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class DirectoryTest {
 
     LocalDateTime ldt = LocalDateTime.now();
     
-    Directory prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
-    Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-    Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
-    Directory test = new Directory(prjRoot, "test", 0, ldt,null);
-    File a = new File(src, "a", 0, ldt,null);
-    File b = new File(src, "b", 0, ldt,null);
-    File c = new File(lib, "c", 0, ldt,null);
-    File x = new File(prjRoot, "x", 0, ldt,null);
-    File d = new File(src, "d", 0, ldt,null);
+    private static FileSystem fs;
+
+    @BeforeAll
+    public static void setUpFS() {
+        
+        fs = TestFixtureInitializer.createFS();
+
+    }
 
     private String[] dirToStringArray(Directory d) {
         Directory parent = d.getParent();
@@ -30,110 +30,91 @@ public class DirectoryTest {
 
     @Test
     public void verifyDirectoryEqualityPrjRoot() {
-        FileSystem fs = FileSystem.getFileSystem();
-        fs.appendRootDir(prjRoot);
         Directory actual = fs.getRootDirs().get(0);
-        String[] expected = { "null", "prjRoot", "0", actual.getCreationTime().toString() }; //actual.getCreationTime().toString() in order to capture the same creation time.
+        String[] expected = { "null", "prjRoot", "0", actual.getCreationTime().toString()};
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
     @Test
     public void verifyDirectoryEqualitySrc() {
-        FileSystem fs = FileSystem.getFileSystem();
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt,null);
-        Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-        fs.appendRootDir(prjRoot);
-        prjRoot.appendChild(src);
-        Directory actual = new Directory(fs.getRootDirs().get(0), "src", 0, ldt,null);
-        String[] expected = { "prjRoot", "src", "0", ldt.toString() };
+        String[] expected = { "prjRoot", "src", "0", ldt.toString()};
+        Directory actual = new Directory(fs.getRootDirs().get(0), "src", 0, ldt, null);
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
     @Test
     public void verifyDirectoryEqualityLib() {
-        FileSystem fs = FileSystem.getFileSystem();
-        fs.appendRootDir(prjRoot);
         String[] expected = { "prjRoot", "lib", "0", ldt.toString() };
-        Directory actual = new Directory(fs.getRootDirs().get(0), "lib", 0, ldt,null);
+        Directory actual = new Directory(fs.getRootDirs().get(0), "lib", 0, ldt, null);
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
     @Test
     public void verifyDirectoryEqualityTest() {
-        FileSystem fs = FileSystem.getFileSystem();
-        fs.appendRootDir(prjRoot);
-        prjRoot.appendChild(test);
-        Directory actual = new Directory(fs.getRootDirs().get(0), "test", 0, ldt,null);
+        Directory actual = new Directory(fs.getRootDirs().get(0), "test", 0, ldt, null);
         String[] expected = { "prjRoot", "test", "0", ldt.toString() };
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
     @Test
-    public void testGetName() {
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt,null);
+    public void verifyDirectoryEqualitySrcUnderTest() {
+        Directory prjRoot = fs.getRootDirs().get(0);
+        Directory test = prjRoot.subDirectoryName("test");
+        Directory actual = test.subDirectoryName("src");
+        String[] expected = { "test", "src", "0", actual.getCreationTime().toString() };
+        assertArrayEquals(expected, dirToStringArray(actual));
+    }
+
+    @Test
+    public void assertGetName() {
+        Directory prjRoot = fs.getRootDirs().get(0);
         assertEquals("prjRoot", prjRoot.getName());
     }
+     
+    @Test
+    public void assertGetParent() {
+        Directory prjRoot = fs.getRootDirs().get(0);
+        Directory actual = prjRoot.subDirectoryName("src");
+        assertEquals(prjRoot, actual.getParent());
+    }
+
 
     @Test
-    public void testSetName() {
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt,null);
-        prjRoot.setName("root");
-        assertEquals("root", prjRoot.getName());
+    public void assertCountChildren() {
+        Directory prjRoot = fs.getRootDirs().get(0);
+        int actual = prjRoot.countChildren();
+        assertEquals(5, actual);
     }
 
     @Test
-    public void testGetParent() {
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt,null);
-        Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-        assertEquals(prjRoot, src.getParent());
-    }
-
-    @Test
-    public void testCountChildren() {
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt,null);
-        File a = new File(prjRoot, "a", 100, ldt,null);
-        prjRoot.appendChild(a);
-        assertEquals(1, prjRoot.countChildren());
-    }
-
-    @Test
-    public void testGetSubDirectories() {
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt,null);
-        Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-        Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
-        prjRoot.appendChild(src);
-        prjRoot.appendChild(lib);
+    public void assertGetSubDirectories() {
+        Directory prjRoot = fs.getRootDirs().get(0);
         LinkedList<Directory> subDirs = prjRoot.getSubDirectories();
-        assertTrue(subDirs.contains(src));
-        assertTrue(subDirs.contains(lib));
-        assertEquals(2, subDirs.size());
+        int actual = subDirs.size();
+        assertEquals(3, actual);
     }
 
     @Test
-    public void testGetFiles() {
-        Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-        File a = new File(src, "a", 100, ldt,null);
-        File b = new File(src, "b", 200, ldt,null);
-        src.appendChild(a);
-        src.appendChild(b);
-        LinkedList<File> files = src.getFiles();
-        assertTrue(files.contains(a));
-        assertTrue(files.contains(b));
-        assertEquals(2, files.size());
+    public void assertGetFiles() {
+        Directory prjRoot = fs.getRootDirs().get(0);
+        LinkedList<File> files = prjRoot.getFiles();
+        int actual = files.size();
+        assertEquals(1, actual);
     }
 
     @Test
-    public void testGetTotalSize() {
-        Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-        File a = new File(src, "a", 100, ldt,null);
-        File b = new File(src, "b", 200, ldt,null);
-        src.appendChild(a);
-        src.appendChild(b);
-        Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
-        prjRoot.appendChild(lib);
-        File c = new File(lib, "c", 50, ldt,null);
-        lib.appendChild(c);
-        prjRoot.appendChild(src);
-        assertEquals(350, prjRoot.getTotalSize());
+    public void assertGetTotalSize() {
+        Directory prjRoot = fs.getRootDirs().get(0);
+        int actual = prjRoot.getTotalSize();
+        assertEquals(10, actual);
     }
+
+    @Test
+    public void assertSubdirectoryByName() {
+        Directory prjRoot = fs.getRootDirs().get(0);
+        Directory dir = prjRoot.subDirectoryName("test");
+        String actual = dir.getName();
+        assertEquals("test", actual);
+    }
+
 }

@@ -4,43 +4,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDateTime;
 
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class LinkTest {
 
     LocalDateTime ldt = LocalDateTime.now();
 
-    private Directory prjRoot;
-    private Directory src;
-    private Directory lib;
-    private Directory test;
-    private Directory src1;
-    private File a;
-    private File b;
-    private File c;
-    private Link y;
+    private static FileSystem fs;
+    private static Directory prjRoot;
+    private static Directory src2;
+    private static Link y;
 
-    @BeforeEach
-    public void setUp() {
-        prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
-        src = new Directory(prjRoot, "src", 0, ldt, null);
-        lib = new Directory(prjRoot, "lib", 0, ldt, null);
-        test = new Directory(prjRoot, "test", 0, ldt, null);
-        src1 = new Directory(test, "src", 0, ldt, null);
-        a = new File(src, "a", 10, ldt, null);
-        b = new File(src, "b", 20, ldt, null);
-        c = new File(lib, "c", 30, ldt, null);
-        y = new Link(prjRoot, "y", 1, ldt, src1);
-
-        prjRoot.appendChild(src);
-        prjRoot.appendChild(lib);
-        prjRoot.appendChild(test);
-        test.appendChild(src1);
-        src.appendChild(a);
-        src.appendChild(b);
-        lib.appendChild(c);
-        src1.appendChild(y);
+    @BeforeAll
+    public static void setUpFS() {
+        fs = TestFixtureInitializer.createFS();
+        prjRoot = fs.getRootDirs().get(0);
+        src2 = prjRoot.subDirectoryName("src");
+        y = new Link(prjRoot, "y", 0, LocalDateTime.now(), src2);
     }
     
     @Test
@@ -58,7 +39,7 @@ public class LinkTest {
     @Test
     public void getSizeLinkTest() {
 
-        assertEquals(1, y.getSize());
+        assertEquals(0, y.getSize());
     }
 
     @Test
@@ -90,7 +71,7 @@ public class LinkTest {
 
     @Test
     public void setTargetLinkTest() {
-        y.setTarget(test);
-        assertEquals(test, y.getTarget());
+        y.setTarget(src2);
+        assertEquals(src2, y.getTarget());
     }
 }
