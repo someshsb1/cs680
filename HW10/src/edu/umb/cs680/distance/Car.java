@@ -1,4 +1,4 @@
-package edu.umb.cs680.hw03;
+package edu.umb.cs680.distance;
 
 import java.util.ArrayList;
 import java.util.Arrays;

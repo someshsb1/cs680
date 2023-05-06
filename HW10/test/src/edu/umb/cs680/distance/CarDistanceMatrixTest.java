@@ -1,6 +1,5 @@
 package edu.umb.cs680.distance;
 
-
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
@@ -9,14 +8,12 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import edu.umb.cs680.hw03.*;
-
 public class CarDistanceMatrixTest {
 
-    @Test
+@Test
 public void testDistanceMatrix() {
     List<Car> cars = new ArrayList<>();
-//list of 5 cars
+    //list of 5 cars
     cars.add(new Car("Toyota", "RAV4", 50000, 2020, 100000));
     cars.add(new Car("Honda", "Civic", 25000, 2018, 20000));
     cars.add(new Car("Ford", "Mustang", 40000, 2019, 50000));
