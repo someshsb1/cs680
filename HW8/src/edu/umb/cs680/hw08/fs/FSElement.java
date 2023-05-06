@@ -1,11 +1,6 @@
 package edu.umb.cs680.hw08.fs;
 
 import java.time.LocalDateTime;
-import java.util.LinkedList;
-
-import edu.umb.cs680.hw08.fs.util.CountingVisitor;
-import edu.umb.cs680.hw08.fs.util.FileCrawlingVisitor;
-import edu.umb.cs680.hw08.fs.util.FileSearchVisitor;
 
 public class FSElement {
 
