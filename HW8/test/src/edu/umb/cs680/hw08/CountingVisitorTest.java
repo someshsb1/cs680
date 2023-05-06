@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDateTime;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import edu.umb.cs680.hw08.fs.*;
@@ -13,6 +14,7 @@ import edu.umb.cs680.hw08.fs.util.CountingVisitor;
 
 public class CountingVisitorTest {
 
+    @BeforeAll
     private Directory setUp() {
     Directory prjRoot = new Directory(null, "prjRoot", 0, LocalDateTime.now(), null);
     Directory src = new Directory(prjRoot, "src", 0, LocalDateTime.now(), null);
