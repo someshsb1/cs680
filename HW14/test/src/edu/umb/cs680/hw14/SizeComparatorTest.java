@@ -11,22 +11,22 @@ import org.junit.jupiter.api.Test;
 
 import edu.umb.cs680.hw14.fs.*;
 
-public class ReverseAlphabeticalComparatorTest {
-
+public class SizeComparatorTest {
     private static FileSystem fs;
     
     @BeforeAll
     public static void setUpFS() {
+
         fs = TestFixtureInitializer.createFS();
+
     }
 
     //passing compare() method as LE to getChildren(), getFiles(), getSubDirectories()
-    
-    @Test      
-    public void assertReverseAlphabeticalOrderGetChildrenTest() {
+    @Test
+    public void assertSizeComparatorGetChildrenTest() {
         Directory prjRoot = fs.getRootDirs().get(0);
-        String[] expectedList = {"y", "x", "test", "src", "lib"};
-        List<FSElement> directories = prjRoot.getChildren((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()));
+        String[] expectedList = {"lib", "src", "test", "y", "x"};
+        List<FSElement> directories = prjRoot.getChildren((fs1, fs2) -> fs1.getSize() - fs2.getSize());
         List<String> actual = new LinkedList<String>();
         for(FSElement directory : directories) {
             actual.add(directory.getName());
@@ -36,10 +36,10 @@ public class ReverseAlphabeticalComparatorTest {
     }
 
     @Test
-    public void assertReverseAlphabeticalOrderGetFileTest() {
+    public void assertSizeComparatorForGetFileTest() {
         Directory prjRoot = fs.getRootDirs().get(0);
         String[] expectedList = {"x"};
-        List<File> files = prjRoot.getFiles((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()));
+        List<File> files = prjRoot.getFiles((fs1, fs2) -> fs1.getSize() - fs2.getSize());
         List<String> actual = new LinkedList<String>();
         for(FSElement file : files) {
             actual.add(file.getName());
@@ -47,12 +47,12 @@ public class ReverseAlphabeticalComparatorTest {
         List<String> expected = Arrays.asList(expectedList);
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
-    
+
     @Test
-    public void assertReverseAlphabeticalOrderGetSubDirectoriesTest() {
+    public void assertSizeComparatorForGetSubDirectoriesTest() {
         Directory prjRoot = fs.getRootDirs().get(0);
-        String[] expectedList = {"test", "src", "lib"};
-        List<Directory> files = prjRoot.getSubDirectories((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()));
+        String[] expectedList = {"lib", "src", "test"};
+        List<Directory> files = prjRoot.getSubDirectories((fs1, fs2) -> fs1.getSize() - fs2.getSize());
         List<String> actual = new LinkedList<String>();
         for(FSElement file : files) {
             actual.add(file.getName());
