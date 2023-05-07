@@ -3,76 +3,83 @@ package edu.umb.cs680.hw12;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import edu.umb.cs680.hw12.fs.Directory;
-import edu.umb.cs680.hw12.fs.FSElement;
-import edu.umb.cs680.hw12.fs.File;
-import edu.umb.cs680.hw12.fs.ReverseAlphabeticalComparator;
+import edu.umb.cs680.hw12.fs.*;
 
 public class ReverseAlphabeticalComparatorTest {
 
-    private static LocalDateTime ldt = LocalDateTime.now();
-    
-    static Directory prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
-    static Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-    static Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
-    static Directory test = new Directory(prjRoot, "test", 0, ldt,null);
-    static File a = new File(src, "a", 0, ldt,null);
-    static File b = new File(src, "b", 0, ldt,null);
-    static File c = new File(lib, "c", 0, ldt,null);
-    static File x = new File(prjRoot, "x", 0, ldt,null);
-    static File d = new File(src, "d", 0, ldt,null);
+    private static FileSystem fs;
+    private static ReverseAlphabeticalComparator comparator;
 
-    
     @BeforeAll
-    public static void setUp() {
-       
-    prjRoot.appendChild(src);
-    prjRoot.appendChild(lib);
-    prjRoot.appendChild(test);
-    prjRoot.appendChild(x);
-    src.appendChild(a);
-    src.appendChild(b);
-    src.appendChild(d);
-    lib.appendChild(c);
-    
+    public static void setUpFS() {
+        fs = TestFixtureInitializer.createFS();
+        comparator = new ReverseAlphabeticalComparator();
     }
 
     @Test
     public void assertReverseAlphabeticalOrderGetChildrenTest() {
-        List<FSElement> fs = prjRoot.getChildren();
-        ReverseAlphabeticalComparator compare = new ReverseAlphabeticalComparator();
-        fs.sort(compare);
-        FSElement [] expected = {x, test, src, lib};
-        FSElement [] actual = fs.toArray(new FSElement[fs.size()]);
-        assertArrayEquals(expected, actual);
+        List<Directory> subDirectories = fs.getRootDirs().get(0).getSubDirectories(comparator);
+        Collections.sort(subDirectories, comparator);
+        List<String> actual = new LinkedList<String>();
+        for (Directory directory: subDirectories) {
+            actual.add(directory.getName());
+        }
+        String[] expected = {"test", "src", "lib"};
+        assertArrayEquals(expected, actual.toArray());
     }
 
     @Test
-    public void assertReverseAlphabeticalOrderGetFileTest() {
-        LinkedList<File> fs = prjRoot.getFiles();
-        ReverseAlphabeticalComparator compare = new ReverseAlphabeticalComparator();
-        fs.sort(compare);
-        FSElement [] expected = {x};
-        FSElement [] actual = fs.toArray(new FSElement[fs.size()]);
-        assertArrayEquals(expected, actual);
+    public void assertReverseAlphabeticalOrderGetAllFilesTest() {
+        List<File> files = new LinkedList<File>();
+        allFiles(fs.getRootDirs().get(0), files);
+        Collections.sort(files, comparator);
+        List<String> actual = new LinkedList<String>();
+        for (File file: files) {
+            actual.add(file.getName());
+        }
+        String[] expected = {"x", "d", "c", "b", "a"};
+        assertArrayEquals(expected, actual.toArray());
+    }
+
+    //helper method for recursively check and add all files in the prjRoot and its subdirectories
+    private void allFiles(Directory directory, List<File> files) {
+        for (FSElement fsElement: directory.getChildren(comparator)) {
+            if(fsElement instanceof Directory) {
+                allFiles((Directory) fsElement, files);
+            } else if (fsElement instanceof File) {
+                files.add((File) fsElement);
+            }
+        }
     }
 
     @Test
     public void assertReverseAlphabeticalOrderGetSubDirectoriesTest() {
-        LinkedList<Directory> fs = prjRoot.getSubDirectories();
-        ReverseAlphabeticalComparator compare = new ReverseAlphabeticalComparator();
-        fs.sort(compare);
-        FSElement [] expected = {test, src, lib};
-        FSElement [] actual = fs.toArray(new FSElement[fs.size()]);
-        assertArrayEquals(expected, actual);
+        List<FSElement> fsElements = fs.getRootDirs().get(0).getChildren(comparator);
+        Collections.sort(fsElements, comparator);
+        List<String> fsEList = new LinkedList<String>();
+        for (FSElement fsElement: fsElements) {
+            fsEList.add(fsElement.getName());
+        }
+        String[] expected = {"y", "x", "test", "src", "lib"};
+        assertArrayEquals(expected, fsEList.toArray());
     }
-
-
+    
+    @Test
+    public void assertReverseAlphabeticalOrderGetImmediateFileTest() {
+        List<File> files = fs.getRootDirs().get(0).getFiles(comparator);
+        Collections.sort(files, comparator);
+        List<String> actual = new LinkedList<String>();
+        for (File file: files) {
+            actual.add(file.getName());
+        }
+        String[] expected = {"x"};
+        assertArrayEquals(expected, actual.toArray());
+    }
 }

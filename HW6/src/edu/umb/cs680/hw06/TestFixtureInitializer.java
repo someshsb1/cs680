@@ -7,7 +7,6 @@ public class TestFixtureInitializer {
     // separate class that is responsible for creating the test fixture for the File System as per the Note 11, Slide 41
     public static FileSystem createFS() {  
 
-        LocalDateTime.now();
         FileSystem fs = FileSystem.getFileSystem();
 
         Directory prjRoot = new Directory(null, "prjRoot", 0, LocalDateTime.now());

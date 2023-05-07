@@ -118,6 +118,7 @@ public class Directory extends FSElement{
         return false;
     }
     
+    
     public static void main(String args[]) {
 
         Directory prjRoot = new Directory(null, "prjRoot", 0, LocalDateTime.now(), null);

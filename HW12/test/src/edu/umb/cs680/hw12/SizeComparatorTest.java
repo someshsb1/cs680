@@ -2,76 +2,71 @@ package edu.umb.cs680.hw12;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 
-import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import edu.umb.cs680.hw12.fs.Directory;
-import edu.umb.cs680.hw12.fs.FSElement;
-import edu.umb.cs680.hw12.fs.File;
-import edu.umb.cs680.hw12.fs.SizeComparator;
+import edu.umb.cs680.hw12.fs.*;
 
 public class SizeComparatorTest {
 
-    private static LocalDateTime ldt = LocalDateTime.now();
-    
-    static Directory prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
-    static Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-    static Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
-    static Directory test = new Directory(prjRoot, "test", 0, ldt,null);
-    static File a = new File(src, "a", 1, ldt,null);
-    static File b = new File(src, "b", 3, ldt,null);
-    static File c = new File(lib, "c", 2, ldt,null);
-    static File x = new File(prjRoot, "x", 8, ldt,null);
-    static File d = new File(src, "d", 6, ldt,null);
+    private static FileSystem fs;
+    private static SizeComparator comparator;
 
-    
     @BeforeAll
-    public static void setUp() {
-       
-    prjRoot.appendChild(src);
-    prjRoot.appendChild(lib);
-    prjRoot.appendChild(test);
-    prjRoot.appendChild(x);
-    src.appendChild(a);
-    src.appendChild(b);
-    src.appendChild(d);
-    lib.appendChild(c);
-    
+    public static void setUpFS() {
+        fs = TestFixtureInitializer.createFS();
+        comparator = new SizeComparator();
     }
 
     @Test
-    public void assertSizeComparatorGetChildrenTest() {
-        List<FSElement> fs = prjRoot.getChildren();
-        SizeComparator compare = new SizeComparator();
-        fs.sort(compare);
-        FSElement [] expected = {lib, src, test, x};
-        FSElement [] actual = fs.toArray(new FSElement[fs.size()]);
-        assertArrayEquals(expected, actual);
+    public void assertSizeComparatorForImmediateChildrenSubDirectoriesTest() {
+        List<Directory> subDirectories = fs.getRootDirs().get(0).getSubDirectories(comparator);
+        Collections.sort(subDirectories, comparator);
+        List<String> actual = new LinkedList<String>();
+        for (Directory directory: subDirectories) {
+            actual.add(directory.getName());
+        }
+        String[] expected = {"lib", "src", "test"};
+        assertArrayEquals(expected, actual.toArray());
     }
 
     @Test
-    public void assertSizeComparatorForGetFileTest() {
-        LinkedList<File> fs = prjRoot.getFiles();
-        SizeComparator compare = new SizeComparator();
-        fs.sort(compare);
-        FSElement [] expected = {x};
-        FSElement [] actual = fs.toArray(new FSElement[fs.size()]);
-        assertArrayEquals(expected, actual);
+    public void assertSizeComparatorForGetFileTestInImmediateSubdirectories() {
+        List<File> files = new LinkedList<File>();
+        allFiles(fs.getRootDirs().get(0), files);
+        Collections.sort(files, comparator);
+        List<String> actual = new LinkedList<String>();
+        for (File file: files) {
+            actual.add(file.getName());
+        }
+        String[] expected = {"c", "a", "b", "d", "x"};
+        assertArrayEquals(expected, actual.toArray());
+    }
+
+    //helper method for recursively checking and adding all files in the prjRoot subdirectories
+    private void allFiles(Directory directory, List<File> files) {
+        for (FSElement fsElement: directory.getChildren(comparator)) {
+            if(fsElement instanceof Directory) {
+                allFiles((Directory) fsElement, files);
+            } else if (fsElement instanceof File) {
+                files.add((File) fsElement);
+            }
+        }
     }
 
     @Test
-    public void assertSizeComparatorForGetSubDirectoriesTest() {
-        LinkedList<Directory> fs = prjRoot.getSubDirectories();
-        SizeComparator compare = new SizeComparator();
-        fs.sort(compare);
-        FSElement [] expected = {lib, src, test};
-        FSElement [] actual = fs.toArray(new FSElement[fs.size()]);
-        assertArrayEquals(expected, actual);
+    public void assertSizeComparatorForImmediateChildrenTest() {
+        List<FSElement> fsElements = fs.getRootDirs().get(0).getChildren(comparator);
+        Collections.sort(fsElements, comparator);
+        List<String> fsEList = new LinkedList<String>();
+        for (FSElement fsElement: fsElements) {
+            fsEList.add(fsElement.getName());
+        }
+        String[] expected = {"lib", "src", "test", "y", "x"};
+        assertArrayEquals(expected, fsEList.toArray());
     }
-
-
 }

@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 
+import edu.umb.cs680.hw14.ReverseAlphabeticalComparatorTest;
+
 public class Directory extends FSElement{
     
     private LinkedList<FSElement> childrens;
@@ -28,9 +30,9 @@ public class Directory extends FSElement{
         return childrens;
     }
 
-    public LinkedList<FSElement> getChildren(Comparator<FSElement> fs) {
+    public LinkedList<FSElement> getChildren(Comparator<FSElement> comparator) {
         LinkedList<FSElement> children = new LinkedList<>(childrens);
-        Collections.sort(children, fs);
+        Collections.sort(children, comparator);
         return children;
     }
 
@@ -119,67 +121,60 @@ public class Directory extends FSElement{
     
     public static void main(String args[]) {
 
-        LocalDateTime ldt = LocalDateTime.now();
-
-        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
-        Directory src = new Directory(prjRoot, "src", 0, ldt,null);
-        Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
-        Directory test = new Directory(prjRoot, "test", 0, ldt,null);
-        File a = new File(src, "a", 3, ldt,null);
-        File b = new File(src, "b", 4, ldt,null);
-        File c = new File(lib, "c", 10, ldt,null);
-        File x = new File(prjRoot, "x", 5, ldt,null);
-        File d = new File(src, "d", 3, ldt,null);
+        // Directory prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
+        // Directory src = new Directory(prjRoot, "src", 0, ldt,null);
+        // Directory lib = new Directory(prjRoot, "lib", 0, ldt,null);
+        // Directory test = new Directory(prjRoot, "test", 0, ldt,null);
+        // File a = new File(src, "a", 3, ldt,null);
+        // File b = new File(src, "b", 4, ldt,null);
+        // File c = new File(lib, "c", 10, ldt,null);
+        // File x = new File(prjRoot, "x", 5, ldt,null);
+        // File d = new File(src, "d", 3, ldt,null);
         
-        prjRoot.appendChild(src);
-        prjRoot.appendChild(lib);
-        prjRoot.appendChild(test);
-        prjRoot.appendChild(x);
-        src.appendChild(a);
-        src.appendChild(b);
-        src.appendChild(d);
-        lib.appendChild(c);
+        // prjRoot.appendChild(src);
+        // prjRoot.appendChild(lib);
+        // prjRoot.appendChild(test);
+        // prjRoot.appendChild(x);
+        // src.appendChild(a);
+        // src.appendChild(b);
+        // src.appendChild(d);
+        // lib.appendChild(c);
 
-        System.out.println("Default Alphabetical Sorting policy for Children");
-        for (FSElement fs: src.getChildren((fs1, fs2) -> fs1.getName().compareTo(fs2.getName()))) {
-            System.out.println(fs.getName());
-            if (fs instanceof Directory) {
-                for (FSElement child : ((Directory) fs).getChildren()) {
-                    System.out.println(child.getName());
-                }
-            }
-        }
-        System.out.println("Reverse Alphabetical Sorting policy for Subdirectories");
-
-        for (FSElement fs: prjRoot.getSubDirectories((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()))) {
-            System.out.println(fs.getName());
-            if (fs instanceof Directory) {
-                for (FSElement child : ((Directory) fs).getSubDirectories()) {
-                    System.out.println(child.getName());
-                }
-            }
-        }
-        System.out.println("Reverse Alphabetical Sorting policy for files");
-
-        for (FSElement fs: src.getFiles((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()))) {
-            System.out.println(fs.getName());
-            if (fs instanceof Directory) {
-                for (FSElement child : ((Directory) fs).getFiles()) {
-                    System.out.println(child.getName());
-                }
-            }
-        }
-
-        System.out.println("Sorting by Size policy");
-        for (FSElement fs: src.getFiles((fs1, fs2) -> fs1.getSize() - fs2.getSize())) {
-            System.out.println(fs.getSize());
-            if (fs instanceof Directory) {
-                for (FSElement child : ((Directory) fs).getFiles()) {
-                    System.out.println(child.getSize());
-                }
-            }
-        }
-
+        // System.out.println("Default Alphabetical Sorting policy for Children");
+        // for (FSElement fs: src.getChildren((fs1, fs2) -> fs1.getName().compareTo(fs2.getName()))) {
+        //     System.out.println(fs.getName());
+        //     if (fs instanceof Directory) {
+        //         for (FSElement child : ((Directory) fs).getChildren()) {
+        //             System.out.println(child.getName());
+        //         }
+        //     }
+        // }
+        // System.out.println("Reverse Alphabetical Sorting policy for Subdirectories");
+        // for (FSElement fs: prjRoot.getSubDirectories((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()))) {
+        //     System.out.println(fs.getName());
+        //     if (fs instanceof Directory) {
+        //         for (FSElement child : ((Directory) fs).getSubDirectories()) {
+        //             System.out.println(child.getName());
+        //         }
+        //     }
+        // }
+        // System.out.println("Reverse Alphabetical Sorting policy for files");
+        // for (FSElement fs: src.getFiles((fs1, fs2) -> fs2.getName().compareTo(fs1.getName()))) {
+        //     System.out.println(fs.getName());
+        //     if (fs instanceof Directory) {
+        //         for (FSElement child : ((Directory) fs).getFiles()) {
+        //             System.out.println(child.getName());
+        //         }
+        //     }
+        // }
+        // System.out.println("Sorting by Size policy");
+        // for (FSElement fs: src.getFiles((fs1, fs2) -> fs1.getSize() - fs2.getSize())) {
+        //     System.out.println(fs.getSize());
+        //     if (fs instanceof Directory) {
+        //         for (FSElement child : ((Directory) fs).getFiles()) {
+        //             System.out.println(child.getSize());
+        //         }
+        //     }
+        // }
     }
-
 }
