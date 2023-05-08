@@ -1,18 +1,21 @@
-package edu.umb.cs680.hw04;
+package edu.umb.cs680.SecurityContext;
 
 import javax.naming.AuthenticationException;
 
+//<<Singleton Class>>
 public class LoggedOut implements State {
-    private static LoggedOut instance = new LoggedOut();
+    private static LoggedOut instance = null; //private constructor
 
-    LoggedOut() {}
-
-    private SecurityContext ctx;
+    public SecurityContext ctx;
 
     public LoggedOut(SecurityContext ctx) {
         this.ctx = ctx;
     }
-    public static LoggedOut getInstance() {
+
+    public static LoggedOut getInstance(SecurityContext ctx) {
+        if (instance == null) {
+            instance = new LoggedOut(ctx);
+        }
         return instance;
     }
 
@@ -21,7 +24,7 @@ public class LoggedOut implements State {
         if (Authenticator.authenticate(ctx, password)) {
             ctx.changeState(new LoggedIn(ctx));
         } else {
-            throw new AuthenticationException("Invalid password");
+            throw new AuthenticationException("Incorrect password");
         }
     }
 
@@ -29,16 +32,5 @@ public class LoggedOut implements State {
     public void logout() {
         //empty
         System.out.println("Logged out already.");
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) {
-            return true;
-        }
-        if (!(obj instanceof LoggedOut)) {
-            return false;
-        }
-        return true;
     }
 }

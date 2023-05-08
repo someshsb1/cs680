@@ -1,4 +1,4 @@
-package edu.umb.cs680.hw04;
+package edu.umb.cs680.SecurityContext;
 
 import javax.naming.AuthenticationException;
 
@@ -9,8 +9,8 @@ public class SecurityContext {
     static EncryptedString password;
 
 
-    public SecurityContext(User user, EncryptedString password ) {
-        state = new LoggedOut();
+    public SecurityContext(User user, EncryptedString password) {
+        state = new LoggedOut(this);
     }
 
     public void changeState(State newState) {
@@ -25,10 +25,12 @@ public class SecurityContext {
         state.logout();
     }
 
+    //isActive returns true in the first login, then returns false.
     public boolean isActive() {
-        boolean result = isFirstLogin;
-        isFirstLogin = false;
-        return result;
+        if (isFirstLogin == true) {
+            return isFirstLogin;
+        }
+        return false;
     }
 
     public State getState() {
@@ -40,14 +42,19 @@ public class SecurityContext {
     }
 
     public static void main(String[] args) throws AuthenticationException {
+        User user = null;
+        EncryptedString password = null;
         SecurityContext ctx = new SecurityContext(user, password);
 
         //Current state
         System.out.println("Current State: " + (ctx.getState() instanceof LoggedOut ? "LoggedOut" : "LoggedIn"));
 
-        //State transition after logging in
-        ctx.login(new EncryptedString("password123"));
+        //After call to ctx.login(...); Successful Login.
+        try {
+        ctx.login(new EncryptedString());
         System.out.println("After successful login: " + (ctx.getState() instanceof LoggedIn ? "LoggedIn" : "LoggedOut"));
-        
+        } catch (AuthenticationException e) {
+            System.out.println("Login failed: " + e.getMessage());
+        }
     }
 }

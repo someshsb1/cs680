@@ -6,12 +6,12 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import edu.umb.cs680.hw04.EncryptedString;
-import edu.umb.cs680.hw04.SecurityContext;
+import edu.umb.cs680.SecurityContext.*;
+
 
 public class ModelABCTest {
 
-    //doAccessControl is empty is we're just doing a general test case
+    //doAccessControl is empty so we're just doing a general test case
     @Test
     public void doAccessControlTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
@@ -48,8 +48,8 @@ public class ModelABCTest {
     @Test
     public void doAuthenticationPositiveTestCase() {
         PrintJobExecutor ex = new PrintJobExecutor();
-        EncryptedString pwd = new EncryptedString("password");
-        SecurityContext ctx = new SecurityContext();
+        EncryptedString pwd = new EncryptedString();
+        SecurityContext ctx = new SecurityContext(null, pwd);
         try {
             ex.doAuthentication(pwd, ctx);
             assertTrue(ex.isLoggedin());
@@ -61,8 +61,8 @@ public class ModelABCTest {
     @Test
     public void doAuthenticationNegativeTestCase() {
     PrintJobExecutor ex = new PrintJobExecutor();
-    EncryptedString pwd = new EncryptedString("incorrect pwd");
-    SecurityContext ctx = new SecurityContext();
+    EncryptedString pwd = new EncryptedString();
+    SecurityContext ctx = new SecurityContext(null, pwd);
 
     try {
         ex.doAuthentication(pwd, ctx);
@@ -82,8 +82,6 @@ public class ModelABCTest {
             fail("Exception message thrown: " + ee.getMessage());
         }
     }
-
-
 }
 
 

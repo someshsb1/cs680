@@ -1,4 +1,4 @@
-package edu.umb.cs680.hw04;
+package edu.umb.cs680.SecurityContext;
 
 import javax.naming.AuthenticationException;
 

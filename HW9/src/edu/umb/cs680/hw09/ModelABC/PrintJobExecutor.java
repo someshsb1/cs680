@@ -1,6 +1,8 @@
 package edu.umb.cs680.hw09.ModelABC;
 
-import edu.umb.cs680.hw04.*;
+import javax.naming.AuthenticationException;
+
+import edu.umb.cs680.SecurityContext.*;
 
 public class PrintJobExecutor extends edu.umb.cs680.hw09.PrintingFramework.PrintJobExecutor {
 
@@ -20,16 +22,13 @@ public class PrintJobExecutor extends edu.umb.cs680.hw09.PrintingFramework.Print
             PrintJob.execute();
         }
 
-    protected void doAuthentication(EncryptedString pwd, SecurityContext ctx) throws Exception {
+    protected void doAuthentication(EncryptedString pwd, SecurityContext ctx) throws AuthenticationException {
         
-        try {
             // login / authentication takes place
             ctx.login(pwd);
             // isloggedin is set to true if login authentication is succesfull else exception is thrown
             isLoggedin = true;
-        }  catch (Exception e) {
-            throw new Exception("Authentication failed: " + e.getMessage());  
-        }
+        
     }
 
     public boolean isLoggedin() {

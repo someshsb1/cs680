@@ -11,5 +11,6 @@ public class PrintJob implements Command {
     public static void execute() {
         Printer print = Printer.getInstance();
         print.print();
+        System.out.println("Printing in progress");
     }
 }
