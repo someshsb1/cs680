@@ -13,4 +13,8 @@ public class Link extends FSElement {
         v.visit(this);
     }
 
+    public boolean isLink() {
+        return true;
+    }
+
 }

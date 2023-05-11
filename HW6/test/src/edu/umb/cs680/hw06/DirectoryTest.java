@@ -5,20 +5,19 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 public class DirectoryTest {
-
-    LocalDateTime ldt = LocalDateTime.now();
-    
+    private static LocalDateTime ldt;
     private static FileSystem fs;
 
     @BeforeAll
     public static void setUpFS() {
-        
+        ldt = LocalDateTime.now();
         fs = TestFixtureInitializer.createFS();
-
+        
     }
 
     private String[] dirToStringArray(Directory d) {
@@ -30,8 +29,10 @@ public class DirectoryTest {
 
     @Test
     public void verifyDirectoryEqualityPrjRoot() {
-        Directory actual = fs.getRootDirs().get(0);
-        String[] expected = { "null", "prjRoot", "0", actual.getCreationTime().toString()};
+        Directory prjRoot = fs.getRootDirs().get(0);
+        Directory actual = prjRoot;
+        String[] expected = { "null", "prjRoot", "0", prjRoot.getCreationTime().toString() };
+        System.out.println(ldt.toString());
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
@@ -61,7 +62,7 @@ public class DirectoryTest {
         Directory prjRoot = fs.getRootDirs().get(0);
         Directory test = prjRoot.subDirectoryName("test");
         Directory actual = test.subDirectoryName("src");
-        String[] expected = { "test", "src", "0", actual.getCreationTime().toString() };
+        String[] expected = { "test", "src", "0", test.getCreationTime().toString() };
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 

@@ -12,16 +12,8 @@ public class File extends FSElement {
         
     }
 
-    public boolean isDirectory() {
-        return false;
-
-    }
-
     public boolean isFile() {
         return true;
     }
 
-    public boolean isLink() {
-        return false;
-    }
 }

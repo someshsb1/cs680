@@ -9,14 +9,14 @@ import org.junit.jupiter.api.Test;
 
 public class FileTest {
 
-    LocalDateTime ldt = LocalDateTime.now();
+    static LocalDateTime ldt;
 
 
     private static FileSystem fs;
 
     @BeforeAll
     public static void setUpFS() {
-        
+        ldt = LocalDateTime.now();
         fs = TestFixtureInitializer.createFS();
 
     }

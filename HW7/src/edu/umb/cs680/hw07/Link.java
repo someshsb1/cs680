@@ -17,14 +17,6 @@ public class Link extends FSElement {
         return true;
     }
 
-    public boolean isDirectory() {
-        return false;
-    }
-
-    public boolean isFile() {
-        return false;
-    }
-
     public FSElement getTarget() {
         return this.target;
     }
