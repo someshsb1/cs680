@@ -14,35 +14,47 @@ public class CarDistanceMatrixTest {
 public void testDistanceMatrix() {
     List<Car> cars = new ArrayList<>();
     //list of 5 cars
-    cars.add(new Car("Toyota", "RAV4", 50000, 2020, 100000));
-    cars.add(new Car("Honda", "Civic", 25000, 2018, 20000));
-    cars.add(new Car("Ford", "Mustang", 40000, 2019, 50000));
-    cars.add(new Car("Chevrolet", "Camaro", 35000, 2018, 40000));
-    cars.add(new Car("Tesla", "Model S", 20000, 2021, 80000));
+    cars.add(new Car("Toyota", "RAV4", 50000, 2020, 100000f));
+    cars.add(new Car("Honda", "Civic", 25000, 2018, 20000f));
+    cars.add(new Car("Ford", "Mustang", 40000, 2019, 50000f));
+    cars.add(new Car("Chevrolet", "Camaro", 35000, 2018, 40000f));
+    cars.add(new Car("Tesla", "Model S", 20000, 2021, 80000f));
 
-    //values converted into min-max normalisation
-    List<List<Double>> points = new ArrayList<>();
-    for (Car car : cars) {
-        int mileage = car.getMileage();
-        int year = car.getYear();
-        float price = car.getPrice();
-    
-        int minMileage = 0;
-        int maxMileage = 100000;
-        double nMileage = (double) (mileage - minMileage) / (maxMileage - minMileage);
-    
-        int minYear = 2000;
-        int maxYear = 2025;
-        double nYear = (double) (year - minYear) / (maxYear - minYear);
-    
-        int minPrice = 0;
-        int maxPrice = 1000000;
-        double nPrice = (double) (price - minPrice) / (maxPrice - minPrice);
-    
-        List<Double> point = Arrays.asList(nMileage, nYear, nPrice);
-        points.add(point);
+    //instead hardcoding the values, implementing the way to accept dynamic values
+    double maxM = Double.MAX_VALUE;
+    double minM = Double.MIN_VALUE;
+    double maxY = Double.MAX_VALUE;
+    double minY = Double.MIN_VALUE;
+    double maxP = Float.MAX_VALUE;
+    double minP = Float.MIN_VALUE;
+
+    for (Car c: cars) {
+        double mileage = c.getMileage();
+        double price = c.getPrice();
+        double year = c.getYear();
+
+        maxM = Math.max(maxM, mileage);
+        minM = Math.min(minM, mileage);
+        maxY = Math.max(maxY, year);
+        minY = Math.min(minY, year);
+        maxP = Math.max(maxP, price);
+        minP = Math.min(minP, price);
     }
 
+    List<List<Double>> points = new ArrayList<>();
+    //min-max normalisation conversion of above values
+    for (Car c: cars) {
+        double mileage = c.getMileage();
+        double price = c.getPrice();
+        double year = c.getYear();
+
+        double nMileage = (double) (mileage - minM) / (maxM - minM);
+        double nPrice = (double) (price - minP) / (maxP - minP);
+        double nYear = (double) (year - minY) / (maxY - minY);
+
+        List<Double> p = Arrays.asList(nMileage, nPrice, nYear);
+        points.add(p);
+    } 
     //distance.matrix test with two or more metrics - manhattan & cosine
     List<List<Double>> manhattanMetric = Distance.matrix(points, new Manhattan());
     List<List<Double>> cosineMetric = Distance.matrix(points, new Cosine());
