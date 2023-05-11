@@ -8,19 +8,20 @@ public class TestFixtureInitializer {
     public static FileSystem createFS() {  
 
         FileSystem fs = FileSystem.getFileSystem();
+        LocalDateTime ldt = LocalDateTime.now();
 
-        Directory prjRoot = new Directory(null, "prjRoot", 0, LocalDateTime.now(), null);
-        Directory src = new Directory(prjRoot, "src", 0, LocalDateTime.now(), null);
-        Directory lib = new Directory(prjRoot, "lib", 0, LocalDateTime.now(), null);
-        Directory test = new Directory(prjRoot, "test", 0, LocalDateTime.now(), null);
-        Directory src2 = new Directory(test, "src", 0, LocalDateTime.now(), null);
+        Directory prjRoot = new Directory(null, "prjRoot", 0, ldt, null);
+        Directory src = new Directory(prjRoot, "src", 0, ldt, null);
+        Directory lib = new Directory(prjRoot, "lib", 0, ldt, null);
+        Directory test = new Directory(prjRoot, "test", 0, ldt, null);
+        Directory src2 = new Directory(test, "src", 0, ldt, null);
 
-        File x = new File(prjRoot, "x", 10, LocalDateTime.now(), null);
-        File a = new File(src, "a", 0, LocalDateTime.now(), null);
-        File b = new File(src, "b", 0, LocalDateTime.now(), null);
-        File c = new File(lib, "c", 0, LocalDateTime.now(), null);
-        File d = new File(src2, "d", 0, LocalDateTime.now(), null);
-        Link y = new Link(prjRoot, "y", 0, LocalDateTime.now(), src2);
+        File x = new File(prjRoot, "x", 10, ldt, null);
+        File a = new File(src, "a", 0, ldt, null);
+        File b = new File(src, "b", 0, ldt, null);
+        File c = new File(lib, "c", 0, ldt, null);
+        File d = new File(src2, "d", 0, ldt, null);
+        Link y = new Link(prjRoot, "y", 0, ldt, src2);
 
 
         fs.appendRootDir(prjRoot);

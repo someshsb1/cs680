@@ -24,14 +24,15 @@ public class DirectoryTest {
     private String[] dirToStringArray(Directory d) {
         Directory parent = d.getParent();
         String pname = (parent == null) ? "null" : parent.getName();
-        String[] dirInfo = { pname, d.getName(), Integer.toString(d.getSize()), d.getCreationTime().toString() };
+        String[] dirInfo = { pname, d.getName(), Integer.toString(d.getSize()), d.getCreationTime().toString()};
         return dirInfo;
     }
 
     @Test
     public void verifyDirectoryEqualityPrjRoot() {
-        Directory actual = fs.getRootDirs().get(0);
-        String[] expected = { "null", "prjRoot", "0", actual.getCreationTime().toString()};
+        Directory prjRoot = fs.getRootDirs().get(0);
+        Directory actual = prjRoot;
+        String[] expected = { "null", "prjRoot", "0", prjRoot.getCreationTime().toString()};
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
@@ -61,7 +62,7 @@ public class DirectoryTest {
         Directory prjRoot = fs.getRootDirs().get(0);
         Directory test = prjRoot.subDirectoryName("test");
         Directory actual = test.subDirectoryName("src");
-        String[] expected = { "test", "src", "0", actual.getCreationTime().toString() };
+        String[] expected = { "test", "src", "0", test.getCreationTime().toString()};
         assertArrayEquals(expected, dirToStringArray(actual));
     }
 
