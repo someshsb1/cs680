@@ -17,4 +17,12 @@ public class Link extends FSElement {
         return true;
     }
 
+    public FSElement getTarget() {
+        return this.target;
+    }
+
+    public void setTarget(FSElement target) {
+        this.target = target;
+    }
+
 }
