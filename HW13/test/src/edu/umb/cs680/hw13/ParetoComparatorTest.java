@@ -37,6 +37,24 @@ public class ParetoComparatorTest {
     }
 
     @Test
+    public void assertNaturalOrderParetoComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> c1.getDominationCount() - c2.getDominationCount());
+        assertEquals(0, carList.get(0).getDominationCount());
+        assertEquals(0, carList.get(1).getDominationCount());
+        assertEquals(0, carList.get(2).getDominationCount());
+        assertEquals(3, carList.get(3).getDominationCount());
+    }
+
+    @Test
+    public void assertReverseOrderParetoComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> c2.getDominationCount() - c1.getDominationCount());
+        assertEquals(0, carList.get(3).getDominationCount());
+        assertEquals(0, carList.get(2).getDominationCount());
+        assertEquals(0, carList.get(1).getDominationCount());
+        assertEquals(3, carList.get(0).getDominationCount());
+    }
+
+    @Test
     public void assertReverseOrderParetoComparatorTest() {
         Collections.sort(carList, Comparator.comparing(Car::getDominationCount, Comparator.reverseOrder()));
         assertEquals(0, carList.get(3).getDominationCount());

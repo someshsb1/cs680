@@ -33,6 +33,7 @@ public class PriceComparatorTest {
         assertEquals(40000f, carList.get(3).getPrice());
     }
 
+
     @Test
     public void assertReverseOrderPriceComparatorTest() {
         Collections.sort(carList, Comparator.comparing(Car::getPrice, Comparator.reverseOrder()));
@@ -40,6 +41,24 @@ public class PriceComparatorTest {
         assertEquals(20000f, carList.get(2).getPrice());
         assertEquals(23000f, carList.get(1).getPrice());
         assertEquals(40000f, carList.get(0).getPrice());
+    }
+
+    @Test
+    public void assertReverseOrderPriceComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> (int)(c2.getPrice() - c1.getPrice()));
+        assertEquals(10000f, carList.get(3).getPrice());
+        assertEquals(20000f, carList.get(2).getPrice());
+        assertEquals(23000f, carList.get(1).getPrice());
+        assertEquals(40000f, carList.get(0).getPrice());
+    }
+
+    @Test
+    public void assertNaturalOrderPriceComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> (int)(c1.getPrice() - c2.getPrice()));
+        assertEquals(10000f, carList.get(0).getPrice());
+        assertEquals(20000f, carList.get(1).getPrice());
+        assertEquals(23000f, carList.get(2).getPrice());
+        assertEquals(40000f, carList.get(3).getPrice());
     }
 
     @Test

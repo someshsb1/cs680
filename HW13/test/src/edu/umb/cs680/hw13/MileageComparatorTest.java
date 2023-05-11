@@ -34,6 +34,24 @@ public class MileageComparatorTest {
     }
 
     @Test
+    public void assertNaturalOrderMileageComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> c1.getMileage() - c2.getMileage() );
+        assertEquals(15000, carList.get(0).getMileage());
+        assertEquals(20000, carList.get(1).getMileage());
+        assertEquals(30000, carList.get(2).getMileage());
+        assertEquals(36000, carList.get(3).getMileage());
+    }
+
+    @Test
+    public void assertReverseOrderMileageComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> c2.getMileage() - c1.getMileage() );
+        assertEquals(15000, carList.get(3).getMileage());
+        assertEquals(20000, carList.get(2).getMileage());
+        assertEquals(30000, carList.get(1).getMileage());
+        assertEquals(36000, carList.get(0).getMileage());
+    }
+
+    @Test
     public void assertReverseOrderMileageComparatorTest() {
         Collections.sort(carList, Comparator.comparing(Car::getMileage, Comparator.reverseOrder()));
         assertEquals(15000, carList.get(3).getMileage());

@@ -34,6 +34,24 @@ public class YearComparatorTest {
     }
 
     @Test
+    public void assertNaturalOrderYearComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> c1.getYear() - c2.getYear());
+        assertEquals(2016, carList.get(0).getYear());
+        assertEquals(2018, carList.get(1).getYear());
+        assertEquals(2021, carList.get(2).getYear());
+        assertEquals(2022, carList.get(3).getYear());
+    }
+
+    @Test
+    public void assertReverseOrderYearComparatorLETest() {
+        Collections.sort(carList, (Car c1, Car c2) -> c2.getYear() - c1.getYear());
+        assertEquals(2016, carList.get(3).getYear());
+        assertEquals(2018, carList.get(2).getYear());
+        assertEquals(2021, carList.get(1).getYear());
+        assertEquals(2022, carList.get(0).getYear());
+    }
+
+    @Test
     public void assertReverseOrderYearComparatorTest() {
         Collections.sort(carList, Comparator.comparing(Car::getYear, Comparator.reverseOrder()));
         assertEquals(2016, carList.get(3).getYear());

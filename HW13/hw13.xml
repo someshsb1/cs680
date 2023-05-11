@@ -66,18 +66,6 @@
 		<java classname="edu.umb.cs680.hw13.Car"
 				classpathref="classpath"  
 				fork="true"/>
-		<java classname="edu.umb.cs680.hw13.MileageComparator"
-				classpathref="classpath"  
-				fork="true"/>
-		<java classname="edu.umb.cs680.hw13.PriceComparator"
-				classpathref="classpath"  
-				fork="true"/>
-		<java classname="edu.umb.cs680.hw13.YearComparator"
-				classpathref="classpath"  
-				fork="true"/>
-		<java classname="edu.umb.cs680.hw13.ParetoComparator"
-				classpathref="classpath"  
-				fork="true"/>
 	</target>
 	
 	<target name="clean" depends="run">
