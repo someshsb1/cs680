@@ -61,4 +61,5 @@ public class AlphabeticalComparatorTest {
         List<String> expected = Arrays.asList(expectedList);
         assertArrayEquals(expected.toArray(), actual.toArray());
     }
+
 }

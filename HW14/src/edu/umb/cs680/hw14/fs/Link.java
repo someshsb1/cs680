@@ -13,4 +13,16 @@ public class Link extends FSElement {
         v.visit(this);
     }
 
+    public boolean isLink() {
+        return true;
+    }
+
+    public void setTarget(FSElement target) {
+        this.target = target;
+    }
+
+    public FSElement getTarget() {
+        return target;
+    }
+
 }
