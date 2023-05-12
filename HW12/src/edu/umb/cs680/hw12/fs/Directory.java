@@ -26,6 +26,8 @@ public class Directory extends FSElement{
     }
     
     public LinkedList<FSElement> getChildren() {
+        //returns a linked list whose elements are sorted with the default alphabetical sorting policy
+        Collections.sort(childrens, new AlphabeticalComparator());
         return childrens;
     }
 
@@ -46,11 +48,7 @@ public class Directory extends FSElement{
     public void appendChild(FSElement child) {
         childrens.add(child);
         //sort childrens with default alphabetical sorting policy, so childrens always contains alphabetically sorted FS Elements.
-        Collections.sort(childrens, new AlphabeticalComparator() {
-            public int compare (FSElement fs1, FSElement fs2) {
-                return fs1.getName().compareTo(fs2.getName());
-            }
-        });
+        Collections.sort(childrens, new AlphabeticalComparator());
     }
 
     public int countChildren() {
@@ -64,6 +62,8 @@ public class Directory extends FSElement{
                 subDirectories.add((Directory) child);
             }
         }
+        //returns a linked list whose elements are sorted with the default alphabetical sorting policy
+        Collections.sort(subDirectories, new AlphabeticalComparator());
         return subDirectories;
     }
 
@@ -84,6 +84,8 @@ public class Directory extends FSElement{
                 files.add((File) child);
             }
         }
+        //returns a linked list whose elements are sorted with the default alphabetical sorting policy
+        Collections.sort(files, new AlphabeticalComparator());
         return files;
     }
 
