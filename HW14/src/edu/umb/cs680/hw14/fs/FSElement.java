@@ -34,10 +34,13 @@ public class FSElement {
 
     public boolean isDirectory() {
         return false;
-        
     }
 
     public boolean isFile() {
+        return false;
+    }
+
+    public boolean isLink() {
         return false;
     }
 

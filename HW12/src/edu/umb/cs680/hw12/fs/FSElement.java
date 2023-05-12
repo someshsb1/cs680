@@ -41,6 +41,10 @@ public class FSElement {
         return false;
     }
 
+    public boolean isLink() {
+        return false;
+    }
+
     public Directory getParent() {
         return parent;
     }

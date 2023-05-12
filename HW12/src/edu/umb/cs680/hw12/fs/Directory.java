@@ -112,12 +112,7 @@ public class Directory extends FSElement{
 
     public boolean isDirectory() {
         return true;
-    }
-
-    public boolean isLink() {
-        return false;
-    }
-    
+    }    
     
     public static void main(String args[]) {
 
