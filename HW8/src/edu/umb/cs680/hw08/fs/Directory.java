@@ -80,8 +80,14 @@ public class Directory extends FSElement{
         return true;
     }
 
-    public boolean isLink() {
-        return false;
+       //to capture the name of the subdirectories under the parent
+       public Directory subDirectoryName(String name) {
+        for (FSElement fs: childrens) {
+            if (fs instanceof Directory && fs.getName().equals(name)) {
+                return (Directory) fs;
+            }
+        }
+        return null;
     }
     
 

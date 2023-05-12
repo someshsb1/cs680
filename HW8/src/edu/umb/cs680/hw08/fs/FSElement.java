@@ -10,8 +10,6 @@ public class FSElement {
     protected Directory parent;
     FSElement target;
 
-    
-
     public FSElement(Directory parent, String name, int size, LocalDateTime creationTime, FSElement target) {
         this.parent = parent;
         this.name = name;
@@ -36,6 +34,10 @@ public class FSElement {
         return false;
     }
 
+    public boolean isLink() {
+        return false;
+    }
+    
     public Directory getParent() {
         return parent;
     }
