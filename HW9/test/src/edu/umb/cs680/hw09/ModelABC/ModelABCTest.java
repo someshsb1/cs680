@@ -1,12 +1,15 @@
 package edu.umb.cs680.hw09.ModelABC;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
+
+import javax.naming.AuthenticationException;
 
 import org.junit.jupiter.api.Test;
 
 import edu.umb.cs680.SecurityContext.*;
+import edu.umb.cs680.hw09.PrintingFramework.Command;
 
 
 public class ModelABCTest {
@@ -14,30 +17,37 @@ public class ModelABCTest {
     //doAccessControl is empty so we're just doing a general test case
     @Test
     public void doAccessControlTestCase() {
-        PrintJobExecutor ex = new PrintJobExecutor();
+        PrintJobExecutor ex = new PrintJobExecutor(null);
         try {
             ex.doAccessControl();
+            System.out.println("doAccessControl");
         } catch (Exception e) {
             fail("Exception message thrown " + e.getMessage());
         }
     }
 
     @Test
-    public void doPrintPositiveTestCase() {
-        PrintJobExecutor ex = new PrintJobExecutor();
-        ex.setLoggedin(true);
+    public void doPrintPositiveTestCase() throws AuthenticationException {
+        Command job = new PrintJob();
+        SecurityContext ctx = new SecurityContext(null, null);
+        ctx.login(null);
+        PrintJobExecutor ex = new PrintJobExecutor(ctx);
+        if (ctx.isActive()) {
         try {
-            ex.doPrint();
+            ex.doPrint(job);
         } catch (Exception e) {
             fail("Exception message thrown: " + e.getMessage());
         }
     }
+    }
 
     @Test
     public void doPrintNegativeTestCase() {
-        PrintJobExecutor ex = new PrintJobExecutor();
+        Command job = new PrintJob();
+        SecurityContext ctx = new SecurityContext(null, null);
+        PrintJobExecutor ex = new PrintJobExecutor(ctx);
         try {
-            ex.doPrint();
+            ex.doPrint(job);
             fail("Not an expected exception message");
         } catch (Exception e) {
             assertEquals("User is not logged in", e.getMessage());
@@ -46,13 +56,14 @@ public class ModelABCTest {
 
     //doAuthentication method checks the login authentication in ModelABC with relevant +ve and +ve test cases
     @Test
-    public void doAuthenticationPositiveTestCase() {
-        PrintJobExecutor ex = new PrintJobExecutor();
+    public void doAuthenticationPositiveTestCase() throws AuthenticationException {
         EncryptedString pwd = new EncryptedString();
         SecurityContext ctx = new SecurityContext(null, pwd);
+        ctx.login(pwd);
+        PrintJobExecutor ex = new PrintJobExecutor(ctx);
         try {
             ex.doAuthentication(pwd, ctx);
-            assertTrue(ex.isLoggedin());
+            assertTrue(ctx.isActive());
         } catch (Exception e) {
             fail("Exception message thrown: " + e.getMessage());
         }
@@ -60,10 +71,9 @@ public class ModelABCTest {
 
     @Test
     public void doAuthenticationNegativeTestCase() {
-    PrintJobExecutor ex = new PrintJobExecutor();
     EncryptedString pwd = new EncryptedString();
     SecurityContext ctx = new SecurityContext(null, pwd);
-
+    PrintJobExecutor ex = new PrintJobExecutor(ctx);
     try {
         ex.doAuthentication(pwd, ctx);
     } catch (Exception e) {
@@ -74,7 +84,7 @@ public class ModelABCTest {
 
     @Test
     public void doErrorHandlingTestCase() {
-        PrintJobExecutor ex = new PrintJobExecutor();
+        PrintJobExecutor ex = new PrintJobExecutor(null);
         Exception e = new Exception("Test message exception call");
         try {
             ex.doErrorHandling(e);

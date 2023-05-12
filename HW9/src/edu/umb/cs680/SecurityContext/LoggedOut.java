@@ -2,13 +2,13 @@ package edu.umb.cs680.SecurityContext;
 
 import javax.naming.AuthenticationException;
 
-//<<Singleton Class>>
 public class LoggedOut implements State {
+
     private static LoggedOut instance = null; //private constructor
 
-    public SecurityContext ctx;
+    private SecurityContext ctx;
 
-    public LoggedOut(SecurityContext ctx) {
+    LoggedOut(SecurityContext ctx) { ////visibility of loggedout to package
         this.ctx = ctx;
     }
 

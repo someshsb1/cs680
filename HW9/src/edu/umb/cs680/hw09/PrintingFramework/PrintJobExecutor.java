@@ -8,11 +8,11 @@ import edu.umb.cs680.hw09.ModelABC.*;
 
 
 public abstract class PrintJobExecutor {
-    static EncryptedString password;
-    
+
+    protected EncryptedString password;
     protected abstract void doAccessControl();
 
-    protected abstract void doPrint();
+    protected abstract void doPrint(Command job);
 
     protected abstract void doErrorHandling(Exception e);
 
@@ -23,7 +23,7 @@ public abstract class PrintJobExecutor {
             //template method implements common printing flow
             doAuthentication(pwd, ctx);
             doAccessControl();
-            doPrint();
+            doPrint(job);
             
         } catch (AuthenticationException e) {
             // Abort the current print job if authentication fails
@@ -38,7 +38,7 @@ public abstract class PrintJobExecutor {
         EncryptedString password = null;
         SecurityContext ModelABC_ctx = new SecurityContext(user, password);
         ModelABC_ctx.login(new EncryptedString()); //logging in
-        edu.umb.cs680.hw09.ModelABC.PrintJobExecutor ex = new edu.umb.cs680.hw09.ModelABC.PrintJobExecutor();
+        edu.umb.cs680.hw09.ModelABC.PrintJobExecutor ex = new edu.umb.cs680.hw09.ModelABC.PrintJobExecutor(ModelABC_ctx);
         ex.execute(job, password, ModelABC_ctx);//call to printjob after successful login.
     }
 }

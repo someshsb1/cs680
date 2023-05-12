@@ -7,9 +7,9 @@ public class LoggedIn implements State {
 
     private static LoggedIn instance = null; //private constructor
 
-    public SecurityContext ctx;
+    private SecurityContext ctx;
 
-    public LoggedIn(SecurityContext ctx) {
+    LoggedIn(SecurityContext ctx) { //visibility of loggedin to package
         this.ctx = ctx;
     }
 

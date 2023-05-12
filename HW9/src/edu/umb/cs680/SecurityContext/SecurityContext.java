@@ -5,7 +5,6 @@ import javax.naming.AuthenticationException;
 public class SecurityContext {
     private static User user;
     private State state;
-    private boolean isFirstLogin = true;
     static EncryptedString password;
 
 
@@ -27,8 +26,8 @@ public class SecurityContext {
 
     //isActive returns true in the first login, then returns false.
     public boolean isActive() {
-        if (isFirstLogin == true) {
-            return isFirstLogin;
+        if (this.state instanceof LoggedIn) {
+            return true;
         }
         return false;
     }

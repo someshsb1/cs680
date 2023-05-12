@@ -3,45 +3,39 @@ package edu.umb.cs680.hw09.ModelABC;
 import javax.naming.AuthenticationException;
 
 import edu.umb.cs680.SecurityContext.*;
+import edu.umb.cs680.hw09.PrintingFramework.Command;
 
 public class PrintJobExecutor extends edu.umb.cs680.hw09.PrintingFramework.PrintJobExecutor {
-
-    public boolean isLoggedin = false; //initially flag is set to false.
-
+    SecurityContext ctx;
+    
+    public PrintJobExecutor(SecurityContext ctx) {
+        this.ctx = ctx;
+    }
+    
     protected void doAccessControl() {
         //empty
 
     }
 
-    protected void doPrint() {
-        if (!isLoggedin) {
+    protected void doPrint(Command job) {
+        if (!ctx.isActive()) {
             throw new RuntimeException("User is not logged in");
-        }
-        // performs printing if the user is logged in / isloggedin = true
+        } else
+        // performs printing if the user is logged in
             System.out.println("User logged in, printing job in progress");
-            PrintJob.execute();
+            job.execute();
         }
 
     protected void doAuthentication(EncryptedString pwd, SecurityContext ctx) throws AuthenticationException {
-        
+            if(ctx.isActive())
             // login / authentication takes place
-            ctx.login(pwd);
-            // isloggedin is set to true if login authentication is succesfull else exception is thrown
-            isLoggedin = true;
-        
-    }
-
-    public boolean isLoggedin() {
-        return isLoggedin;
+            ctx.login(pwd);        
     }
 
     protected void doErrorHandling(Exception e) {
         System.out.println("Exception message, print job unsuccessful.");
     }
 
-    public void setLoggedin(boolean result) {
-        this.isLoggedin = result;
-    }
     
 }
 
