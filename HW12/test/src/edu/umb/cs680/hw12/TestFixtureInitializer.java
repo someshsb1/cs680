@@ -1,6 +1,9 @@
-package edu.umb.cs680.hw12.fs;
+package edu.umb.cs680.hw12;
 
 import java.time.LocalDateTime;
+
+import edu.umb.cs680.hw12.fs.*;
+
 public class TestFixtureInitializer {
 
     // separate class that is responsible for creating the test fixture for the File System as per the Note 11, Slide 41

@@ -46,7 +46,7 @@ public class Directory extends FSElement{
     public void appendChild(FSElement child) {
         childrens.add(child);
         //sort childrens with default alphabetical sorting policy, so childrens always contains alphabetically sorted FS Elements.
-        Collections.sort(childrens, new Comparator<FSElement>() {
+        Collections.sort(childrens, new AlphabeticalComparator() {
             public int compare (FSElement fs1, FSElement fs2) {
                 return fs1.getName().compareTo(fs2.getName());
             }

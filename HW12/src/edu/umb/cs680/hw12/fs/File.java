@@ -11,5 +11,9 @@ public class File extends FSElement {
         v.visit(this);
     }
 
+    public boolean isFile() {
+        return true;
+    }
+
 }
 
