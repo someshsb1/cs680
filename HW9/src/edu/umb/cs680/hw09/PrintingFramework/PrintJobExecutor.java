@@ -40,5 +40,12 @@ public abstract class PrintJobExecutor {
         ModelABC_ctx.login(new EncryptedString()); //logging in
         edu.umb.cs680.hw09.ModelABC.PrintJobExecutor ex = new edu.umb.cs680.hw09.ModelABC.PrintJobExecutor(ModelABC_ctx);
         ex.execute(job, password, ModelABC_ctx);//call to printjob after successful login.
+        //call to printjob after logout, catches login failed exception.
+        try {
+        ModelABC_ctx.logout();
+        ex.execute(job, password, ModelABC_ctx);
+        } catch (Exception e){
+            System.out.println("Login failed: " + e.getMessage());
+        }
     }
 }
