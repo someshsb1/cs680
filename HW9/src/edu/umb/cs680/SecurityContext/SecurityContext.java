@@ -9,7 +9,7 @@ public class SecurityContext {
 
 
     public SecurityContext(User user, EncryptedString password) {
-        state = new LoggedOut(this);
+        state = LoggedOut.getInstance(this);
     }
 
     public void changeState(State newState) {
@@ -55,5 +55,8 @@ public class SecurityContext {
         } catch (AuthenticationException e) {
             System.out.println("Login failed: " + e.getMessage());
         }
+        ctx.logout();
+        System.out.println("After State: " + (ctx.getState() instanceof LoggedOut ? "LoggedOut" : "LoggedIn"));
+
     }
 }

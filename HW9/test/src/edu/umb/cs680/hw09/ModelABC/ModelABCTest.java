@@ -63,6 +63,7 @@ public class ModelABCTest {
         PrintJobExecutor ex = new PrintJobExecutor(ctx);
         try {
             ex.doAuthentication(pwd, ctx);
+            ctx.changeState(LoggedIn.getInstance(ctx));
             assertTrue(ctx.isActive());
         } catch (Exception e) {
             fail("Exception message thrown: " + e.getMessage());

@@ -8,7 +8,7 @@ public class LoggedOut implements State {
 
     private SecurityContext ctx;
 
-    LoggedOut(SecurityContext ctx) { ////visibility of loggedout to package
+    private LoggedOut(SecurityContext ctx) { 
         this.ctx = ctx;
     }
 
@@ -22,7 +22,7 @@ public class LoggedOut implements State {
     @Override
     public void login(EncryptedString password) throws AuthenticationException {
         if (Authenticator.authenticate(ctx, password)) {
-            ctx.changeState(new LoggedIn(ctx));
+            ctx.changeState(LoggedIn.getInstance(ctx));
         } else {
             throw new AuthenticationException("Incorrect password");
         }

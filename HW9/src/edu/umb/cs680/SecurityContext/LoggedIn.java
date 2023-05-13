@@ -9,7 +9,7 @@ public class LoggedIn implements State {
 
     private SecurityContext ctx;
 
-    LoggedIn(SecurityContext ctx) { //visibility of loggedin to package
+    private LoggedIn(SecurityContext ctx) { 
         this.ctx = ctx;
     }
 
@@ -23,13 +23,13 @@ public class LoggedIn implements State {
     //isActive returns true in the first login, then returns false.
     public void login(EncryptedString password) throws AuthenticationException {
         if(!ctx.isActive()) {
-            ctx.changeState(new LoggedOut(ctx));
+            ctx.changeState(LoggedOut.getInstance(ctx));
             ctx.login(password);
         }
     }
 
     
     public void logout() {
-        ctx.changeState(new LoggedOut(ctx));
+        ctx.changeState(LoggedOut.getInstance(ctx));
     }
 }
